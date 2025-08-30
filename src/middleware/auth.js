@@ -15,14 +15,14 @@ const authenticateToken = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
     // Find user
-    const user = await User.findOne({ where: { id: decoded.userId } });
+    const user = await User.findById(decoded.id);
     if (!user) {
       return res.status(401).json({ error: 'User not found' });
     }
 
     // Add user to request object
     req.user = {
-      id: user.id,
+      id: user._id,
       name: user.name,
       email: user.email
     };

@@ -1,23 +1,24 @@
-const sequelize = require('../config/database');
+const mongoose = require('mongoose');
 
-const User = sequelize.define('User', {
-  id: {
-    type: 'STRING', // Our mock DB uses strings
-    primaryKey: true
-  },
+const userSchema = new mongoose.Schema({
   name: {
-    type: 'STRING',
-    allowNull: false
+    type: String,
+    required: true,
+    trim: true
   },
   email: {
-    type: 'STRING',
-    allowNull: false,
-    unique: true
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true
   },
   password: {
-    type: 'STRING',
-    allowNull: false
+    type: String,
+    required: true
   }
+}, {
+  timestamps: true
 });
 
-module.exports = User;
+module.exports = mongoose.model('user', userSchema);
